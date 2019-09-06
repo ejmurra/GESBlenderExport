@@ -1,12 +1,12 @@
-##Purpose
+## Purpose
 This repo demonstrates current issues importing GES camera data into Blender 2.8.
 
-##Requirements
+## Requirements
 * [Blender 2.8](https://blender.org/download)
 * [BlenderGIS](https://github.com/domlysz/BlenderGIS)
 * [(optionally) QGIS 3.8](https://qgis.org/en/site/forusers/download.html)
 
-##How to use
+## How to use
 Open `GESExport/GESblender.esp` in GES (or view the footage next to it) to get an idea of what the expected output should be.
 
 Then launch GES.blend and execute the attached script `import_GES.py`. It will create and animate a camera according to data exported from GES in local origin tracking mode. It will also import buildings (courtesy of [Microsoft building footprints](https://github.com/microsoft/USBuildingFootprints)) to add some reference. Finally, it will import a set of track points of the expected camera position (these points were manually tracked and NOT exported from GES). 
@@ -15,8 +15,8 @@ Open the animation workspace, set the left viewport to camera view (num0) and th
 
 Go back to the scripting workspace, and change line 8 to `TRACK_TO_EXPECTED = True`. This will tell the script to set the camera to match the exact lon, lat, alt from GES (manually recorded with copy-paste and a lot of effort, not exported). Now run the script again, go back to the animation workspace and scrub the timeline again. This time, the camera will animate thru the proper positions but the rotation is still incomprehensible.
 
-##Details
-###How it works
+## Details
+### How it works
 The script works by using BlenderGIS to set Blender's origin to the same point in space as the local origin track point in GES. Because both Blender and GES units default to meters, and because GES local origin export is ENU tangent to the local origin, once Blender's origin is set to the same, the import should be simple.
 
 However, this is not the case. It appears GES local tracking export is not in fact exporting ENU relative to the local origin in meters. Looking at the exported data, the first camera position is marked as `{"x":356.7595198894851,"y":-1203.3675427399576,"z":-1370.1738190231845}`. A negative z value in this context does not make sense because the local origin is set at an altitude of 2m, so any negative value would mean the camera is underground.
@@ -25,7 +25,7 @@ To check these actual position against the expected values, I created `manual_tr
 
 I would have liked to try manually tracking the camera pan, rotation, and tilt and using those values to set rotation, however I wasn't able to extract those values from GES because I used camera targeting in the animation so clicking on camera rotation values and copy-pasting was giving me the non-overridden values.
 
-###Files
+### Files
 * `GESExport/`
     * `footage/*.jpg` - Rendered output from GES project
     * `GESblender.esp` - GES project file
