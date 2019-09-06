@@ -1,0 +1,1 @@
+shapefiles/building_harn.* filter=lfs diff=lfs merge=lfs -text
